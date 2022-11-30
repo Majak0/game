@@ -1,12 +1,13 @@
-Game
+# Game
 
-Project made in 2022 / 2023.
+### Project made in 2022 / 2023.
 
-Versions:
-Java version: 17 Apache Gradle
+## Versions:
 
-Our team :
+### Java version: 17 Apache Gradle
 
-GARCIA Antony
+## Our team :
 
-JACQUOT Maxime
+### GARCIA Antony
+
+### JACQUOT Maxime
