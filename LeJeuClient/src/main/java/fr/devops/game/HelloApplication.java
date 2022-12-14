@@ -7,7 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+import fr.devops.game.service.IService;
+import fr.devops.game.service.ServiceManager;
+
+public class HelloApplication extends Application implements IService{
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -15,5 +18,6 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+        ServiceManager.get(HelloApplication.class);
     }
 }
