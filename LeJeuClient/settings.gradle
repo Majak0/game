@@ -1,1 +1,4 @@
+include ':LeJeuDto'
+project(':LeJeuDto').projectDir = new File('../LeJeuDto')
+
 rootProject.name = "LeJeuClient"

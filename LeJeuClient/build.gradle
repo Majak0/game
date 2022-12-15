@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'fr.devops.game'
-    mainClass = 'fr.devops.game.HelloApplication'
+    mainClass = 'fr.devops.game.GameApplication'
 }
 
 javafx {
@@ -34,7 +34,7 @@ javafx {
 }
 
 dependencies {
-
+	implementation project(':LeJeuDto')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

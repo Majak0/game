@@ -4,6 +4,7 @@ module fr.devops.game {
 	requires javafx.graphics;
 
 
-    opens fr.devops.game to javafx.fxml;
+    opens fr.devops.game.menu to javafx.fxml;
     exports fr.devops.game;
+    exports fr.devops.game.menu;
 }

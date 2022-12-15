@@ -11,3 +11,10 @@
 ### GARCIA Antony
 
 ### JACQUOT Maxime
+
+## Technical informations
+
+This app is displayed using the JavaFX library.
+The menu part of the app is designed using fxml, while the game part is drawed onto a Canvas.
+
+This game uses a client-server network model and uses TCP for communication.
