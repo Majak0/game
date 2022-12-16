@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import fr.devops.game.service.IService;
-import fr.devops.game.service.ServiceManager;
+import fr.devops.shared.service.IService;
+import fr.devops.shared.service.ServiceManager;
 
 public class HelloApplication extends Application implements IService{
     @Override

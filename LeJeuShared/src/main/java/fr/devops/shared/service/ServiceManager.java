@@ -1,4 +1,4 @@
-package fr.devops.game.service;
+package fr.devops.shared.service;
 
 import java.util.HashMap;
 import java.util.Map;
