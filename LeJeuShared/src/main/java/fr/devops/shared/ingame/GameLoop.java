@@ -21,13 +21,21 @@ public class GameLoop {
 	
 	public void start() {
 		running = true;
-		long lastFrame;
-		long lastTick;
-		long frameSize;
-		long tickSize;
-		// TODO HERE
+		long lastFrame  = System.nanoTime();
+		long lastTick = System.nanoTime();
+		long frameSize = 1000000000 / targetFPS;
+		long tickSize =  50000000;
+		
 		while (running) {
-			
+			var now = System.nanoTime();
+			if (now - lastTick > tickSize) {
+				lastTick = now;
+				tick();
+			}
+			if (now - lastFrame > frameSize) {
+				lastFrame = now;
+				render();
+			}
 			if (stopNextTick) {
 				running = false;
 			}
@@ -51,11 +59,13 @@ public class GameLoop {
 	}
 	
 	public void tick() {
-		
+		for (var e : world.getEntities()) {
+			e.tick(world);
+		}
 	}
 	
 	public void render() {
-		
+		renderer.renderWorld(world);
 	}
 
 }

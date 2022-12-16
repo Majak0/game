@@ -1,16 +1,14 @@
 package fr.devops.shared.ingame.entity;
 
-public class Entity {
+import fr.devops.shared.ingame.IWorld;
+
+public abstract class Entity {
 
 	private EntityType type;
 	
 	private double x;
 	
 	private double y;
-	
-	private double xspeed;
-	
-	private double yspeed;
 	
 	public EntityType getEntityType() {
 		return type;
@@ -24,14 +22,6 @@ public class Entity {
 		return y;
 	}
 	
-	public double getXspeed() {
-		return xspeed;
-	}
-	
-	public double getYspeed() {
-		return yspeed;
-	}
-	
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -39,5 +29,7 @@ public class Entity {
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	public abstract void tick(IWorld world);
 	
 }
