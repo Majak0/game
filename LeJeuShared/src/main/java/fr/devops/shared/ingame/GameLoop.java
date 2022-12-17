@@ -14,6 +14,8 @@ public class GameLoop {
 	
 	private final IRenderer renderer;
 	
+	private int lastFPS = 0;
+	
 	public GameLoop(IWorld world, IRenderer renderer) {
 		this.world = world;
 		this.renderer = renderer;
@@ -21,25 +23,36 @@ public class GameLoop {
 	
 	public void start() {
 		running = true;
-		long lastFrame  = System.nanoTime();
-		long lastTick = System.nanoTime();
+		long nextFrame  = System.nanoTime();
+		long nextTick = nextFrame;
 		long frameSize = 1000000000 / targetFPS;
 		long tickSize =  50000000;
-		
+		long nextSec = nextFrame + 1000000000;
+		int nbFPS = 0;
 		while (running) {
 			var now = System.nanoTime();
-			if (now - lastTick > tickSize) {
-				lastTick = now;
+			if (nextTick <= now) {
+				nextTick = now + tickSize + (nextTick - now);
 				tick();
 			}
-			if (now - lastFrame > frameSize) {
-				lastFrame = now;
+			if (nextFrame <= now) {
+				nextFrame = now + frameSize + (nextFrame - now);
+				nbFPS++;
 				render();
+			}
+			if (nextSec <= now) {
+				nextSec = now + 1000000000;
+				lastFPS = nbFPS;
+				nbFPS = 0;
 			}
 			if (stopNextTick) {
 				running = false;
 			}
 		}
+	}
+	
+	public int getCurrentFPS() {
+		return lastFPS;
 	}
 	
 	public int getTargetFPS() {
