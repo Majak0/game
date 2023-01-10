@@ -1,4 +1,2 @@
-include ':LeJeuClient'
-project(':LeJeuClient').projectDir = new File('./LeJeuClient')
-
+include ('LeJeuClient',  'LeJeuShared')
 rootProject.name = "LeJeu"
