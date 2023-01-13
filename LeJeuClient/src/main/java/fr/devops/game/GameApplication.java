@@ -1,19 +1,21 @@
 package fr.devops.game;
 
-import fr.devops.game.ingame.IngameController;
-import fr.devops.game.render.CanvasRenderer;
-import fr.devops.shared.ingame.GameLoop;
-import fr.devops.shared.ingame.World;
+import fr.devops.game.ingame.IngameEventService;
+import fr.devops.game.navigation.NavigationService;
+import fr.devops.game.navigation.Page;
+import fr.devops.shared.service.ServiceManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GameApplication extends Application {
 
 	@Override
 	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
-		test(stage);/*
+		setupServices(stage);
+		ServiceManager.get(NavigationService.class).goTo(Page.INGAME);
+		stage.setTitle("Le Jeu");
+        stage.setFullScreen(true);
+        stage.show();/*
 		FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("menu/mainmenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         fxmlLoader.getController();
@@ -23,19 +25,9 @@ public class GameApplication extends Application {
         stage.show();*/
 	}
 	
-	private void test(Stage stage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("ingame/gamecanvas.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Le Jeu");
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
-        if (fxmlLoader.getController() instanceof IngameController ctrl) {
-        	var world = new World();
-        	var renderer = new CanvasRenderer(ctrl.getCanvas());
-        	var loop = new GameLoop(world, renderer);
-        	new Thread(() -> loop.start()).start();
-        }
+	private void setupServices(Stage stage) {
+		ServiceManager.register(new NavigationService(stage));
+		ServiceManager.register(new IngameEventService());
 	}
 
 }
