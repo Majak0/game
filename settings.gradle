@@ -1,2 +1,2 @@
-include ('LeJeuClient',  'LeJeuShared')
+include ('LeJeuClient',  'LeJeuShared', 'LeJeuServer')
 rootProject.name = "LeJeu"
