@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fr.devops.game.render.ResizableCanvas?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane style="-fx-background-color: black;"
+	xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="fr.devops.game.ingame.IngameController">
+	<ResizableCanvas fx:id="canvas" AnchorPane.bottomAnchor="0.0"
+		AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+		AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/19"
+		xmlns:fx="http://javafx.com/fxml/1" />
+</AnchorPane>
