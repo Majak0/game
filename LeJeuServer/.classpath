@@ -8,10 +8,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="C:/Users/p2006429.UNIV-LYON1.000/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/19-ea+7/9536a27280b41e28d30164110867eca253af5726/javafx-graphics-19-ea+7-win.jar" sourcepath="C:/Users/p2006429.UNIV-LYON1.000/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/19-ea+7/5cda5dd1b7f9f1a31b30d4890df0019048be8355/javafx-graphics-19-ea+7-sources.jar">
-		<attributes>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

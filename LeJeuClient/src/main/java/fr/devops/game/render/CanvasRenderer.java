@@ -22,14 +22,15 @@ public class CanvasRenderer implements IRenderer{
 		Platform.runLater(() -> {
 			var context = canvas.getGraphicsContext2D();
 			if (context == null) return;
-			context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			double width = canvas.getWidth(), height = canvas.getHeight();
+			context.clearRect(0, 0, width, height);
 			context.setFill(Color.WHITE);
 			context.setTextAlign(TextAlignment.LEFT);
 			context.setTextBaseline(VPos.TOP);
 			context.setFont(Font.font(20));
 			context.fillText(Integer.toString(lastFPS), 0, 0);
 			for (var entity : world.getEntities()) {
-				entity.render(0,0,0);
+				entity.render(context,width,height);
 			}
 		});
 	}
