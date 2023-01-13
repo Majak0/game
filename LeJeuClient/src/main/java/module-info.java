@@ -2,6 +2,7 @@ module fr.devops.game {
     requires javafx.controls;
     requires javafx.fxml;
 	requires javafx.graphics;
+	
 	requires LeJeuShared;
 
 

@@ -13,8 +13,6 @@ public class CanvasRenderer implements IRenderer{
 
 	private final Canvas canvas;
 	
-	private int test = 0;
-	
 	public CanvasRenderer(Canvas canvas) {
 		this.canvas = canvas;
 	}
@@ -26,12 +24,13 @@ public class CanvasRenderer implements IRenderer{
 			if (context == null) return;
 			context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			context.setFill(Color.WHITE);
-			context.fillRect(test++, 300, 100, 100);
 			context.setTextAlign(TextAlignment.LEFT);
 			context.setTextBaseline(VPos.TOP);
 			context.setFont(Font.font(20));
 			context.fillText(Integer.toString(lastFPS), 0, 0);
-			if (test > 300) test=0;
+			for (var entity : world.getEntities()) {
+				entity.render(0,0,0);
+			}
 		});
 	}
 

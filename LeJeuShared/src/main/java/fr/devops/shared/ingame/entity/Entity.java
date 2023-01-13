@@ -32,4 +32,6 @@ public abstract class Entity {
 	
 	public abstract void tick(IWorld world);
 	
+	public abstract void render(int context, int width, int height);
+	
 }
