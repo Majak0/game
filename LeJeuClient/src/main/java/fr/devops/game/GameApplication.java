@@ -1,15 +1,16 @@
 package fr.devops.game;
 
+import fr.devops.game.ingame.IngameEventService;
+import fr.devops.game.navigation.NavigationService;
+import fr.devops.game.navigation.Page;
+import fr.devops.shared.service.ServiceManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class GameApplication extends Application {
-
 	@Override
 	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
-<<<<<<< HEAD
 		setupServices(stage);
 		ServiceManager.get(NavigationService.class).goTo(Page.INGAME);
 		stage.setOnCloseRequest(e -> {
@@ -20,14 +21,12 @@ public class GameApplication extends Application {
 		stage.setMinHeight(300);
 		stage.setTitle("Le Jeu");
         //stage.setFullScreen(true);
-=======
-		FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("menu/mainmenu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Le Jeu");
-        stage.setScene(scene);
-        stage.setFullScreen(true);
->>>>>>> branch 'master' of https://github.com/MaximeJacquo/game
         stage.show();
+	}
+
+	private void setupServices(Stage stage) {
+		ServiceManager.register(new NavigationService(stage));
+		ServiceManager.register(new IngameEventService());
 	}
 
 }
