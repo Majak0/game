@@ -16,5 +16,4 @@ public class GameApplication extends Application {
         stage.setFullScreen(true);
         stage.show();
 	}
-
 }
