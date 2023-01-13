@@ -17,7 +17,7 @@ public class NavigationService implements IService{
 	public void goTo(Page page) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource(page.getFxmlPath()));
-	        Scene scene = new Scene(fxmlLoader.load(), 300, 300);
+	        Scene scene = new Scene(fxmlLoader.load());
 	        stage.setScene(scene);
 	        if (fxmlLoader.getController() instanceof IController controller) {
 	        	controller.setup();

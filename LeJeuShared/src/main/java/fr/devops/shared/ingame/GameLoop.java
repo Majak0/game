@@ -25,9 +25,13 @@ public class GameLoop {
 		running = true;
 		long nextFrame = System.nanoTime();
 		long nextTick = nextFrame;
-		long frameSize = 1000000000 / targetFPS;
+		long frameSize = 0;
+		if (targetFPS > 0) {
+			frameSize = 1000000000 / targetFPS;
+		}
 		long tickSize = 50000000;
 		long nextSec = nextFrame + 1000000000;
+		long elapsed = 0;
 		int nbFPS = 0;
 		while (running) {
 			var now = System.nanoTime();
@@ -37,9 +41,10 @@ public class GameLoop {
 			}
 			if (renderer != null) {
 				if (nextFrame <= now) {
+					elapsed = frameSize + (now - nextFrame);
 					nextFrame = now + frameSize + (nextFrame - now);
 					nbFPS++;
-					render();
+					render(elapsed);
 				}
 				if (nextSec <= now) {
 					nextSec = now + 1000000000;
@@ -79,8 +84,8 @@ public class GameLoop {
 		}
 	}
 
-	public void render() {
-		renderer.renderWorld(world);
+	public void render(long elapsed) {
+		renderer.renderWorld(world, elapsed, lastFPS);
 	}
 
 }

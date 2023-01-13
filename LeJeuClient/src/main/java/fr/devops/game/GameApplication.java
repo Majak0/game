@@ -18,8 +18,10 @@ public class GameApplication extends Application {
 			Platform.exit();
 			System.exit(0);
 		});
+		stage.setMinWidth(300);
+		stage.setMinHeight(300);
 		stage.setTitle("Le Jeu");
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
         stage.show();
 	}
 	
