@@ -7,6 +7,10 @@ public class ServiceManager {
 
 	private static final Map<Class<? extends IService>, Object> serviceMap = new HashMap<>();
 
+	public static final <U extends IService, V> void registerAs(Class<U> asType, V service) {
+		serviceMap.put(asType, service);
+	}
+	
 	public static final <U extends IService> void register(U service) {
 		serviceMap.put(service.getClass(), service);
 	}
