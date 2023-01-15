@@ -5,7 +5,7 @@ import java.util.List;
 
 import fr.devops.shared.ingame.entity.Entity;
 
-public class World {
+public class World implements IWorld {
 
 	private List<Entity> entities = new LinkedList<>();
 	

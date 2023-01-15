@@ -1,6 +1,7 @@
 package fr.devops.shared.ingame.entity;
 
 import fr.devops.shared.ingame.IWorld;
+import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Entity {
 
@@ -15,7 +16,7 @@ public abstract class Entity {
 	}
 	
 	public double getX() {
-		return x;
+		return x;	
 	}
 	
 	public double getY() {
@@ -31,5 +32,7 @@ public abstract class Entity {
 	}
 	
 	public abstract void tick(IWorld world);
+	
+	public abstract void render(GraphicsContext context, double width, double height);
 	
 }
