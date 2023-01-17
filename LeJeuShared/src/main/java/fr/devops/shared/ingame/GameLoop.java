@@ -1,6 +1,6 @@
 package fr.devops.shared.ingame;
 
-import fr.devops.shared.render.IRenderer;
+import fr.devops.shared.render.IWorldRenderer;
 
 public class GameLoop {
 
@@ -12,11 +12,11 @@ public class GameLoop {
 
 	private final IWorld world;
 
-	private final IRenderer renderer;
+	private final IWorldRenderer renderer;
 
 	private int lastFPS = 0;
 
-	public GameLoop(IWorld world, IRenderer renderer) {
+	public GameLoop(IWorld world, IWorldRenderer renderer) {
 		this.world = world;
 		this.renderer = renderer;
 	}

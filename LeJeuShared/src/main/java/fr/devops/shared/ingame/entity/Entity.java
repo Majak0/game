@@ -1,38 +1,31 @@
 package fr.devops.shared.ingame.entity;
 
 import fr.devops.shared.ingame.IWorld;
-import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Entity {
-
-	private EntityType type;
 	
 	private double x;
 	
 	private double y;
 	
-	public EntityType getEntityType() {
-		return type;
-	}
+	public abstract EntityType getEntityType();
 	
-	public double getX() {
+	public final double getX() {
 		return x;	
 	}
 	
-	public double getY() {
+	public final double getY() {
 		return y;
 	}
 	
-	public void setX(double x) {
+	public final void setX(double x) {
 		this.x = x;
 	}
 	
-	public void setY(double y) {
+	public final void setY(double y) {
 		this.y = y;
 	}
 	
-	public abstract void tick(IWorld world);
-	
-	public abstract void render(GraphicsContext context, double width, double height);
-	
+	public void tick(IWorld world) {
+	}
 }
