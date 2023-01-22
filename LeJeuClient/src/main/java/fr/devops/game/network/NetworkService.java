@@ -55,6 +55,7 @@ public class NetworkService implements INetworkService {
 					}
 				}
 			});
+			setConnexionAlive(true);
 			outThread.start();
 			inThread.start();
 			return true;
@@ -86,7 +87,7 @@ public class NetworkService implements INetworkService {
 	private void onReceived(Object payload) {
 		if (payload instanceof IngameEvent evt) {
 			for (var listener : listeners) {
-				listener.onIngameEvent(evt);
+				listener.onNetworkIngameEvent(evt);
 			}
 		}
 	}
@@ -109,7 +110,7 @@ public class NetworkService implements INetworkService {
 		return connexionAlive;
 	}
 
-	public synchronized void setConnexionAlive(boolean alive) {
+	private synchronized void setConnexionAlive(boolean alive) {
 		connexionAlive = alive;
 	}
 

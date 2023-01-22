@@ -4,6 +4,6 @@ import fr.devops.shared.ingame.event.IngameEvent;
 
 public interface NetworkEventListener {
 
-	public void onIngameEvent(IngameEvent evt);
+	public void onNetworkIngameEvent(IngameEvent evt);
 	
 }

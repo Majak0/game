@@ -1,6 +1,8 @@
 package fr.devops.shared.ingame;
 
+import fr.devops.shared.ingame.event.IIngameEventService;
 import fr.devops.shared.render.IWorldRenderer;
+import fr.devops.shared.service.ServiceManager;
 
 public class GameLoop {
 
@@ -21,7 +23,7 @@ public class GameLoop {
 		this.renderer = renderer;
 	}
 
-	public void start() {
+	public synchronized void start() {
 		running = true;
 		long nextFrame = System.nanoTime();
 		long nextTick = nextFrame;
@@ -37,7 +39,7 @@ public class GameLoop {
 			var now = System.nanoTime();
 			if (nextTick <= now) {
 				nextTick = now + tickSize + (nextTick - now);
-				tick();
+				masterTick();
 			}
 			if (renderer != null) {
 				if (nextFrame <= now) {
@@ -58,15 +60,15 @@ public class GameLoop {
 		}
 	}
 
-	public int getCurrentFPS() {
+	public synchronized int getCurrentFPS() {
 		return lastFPS;
 	}
 
-	public int getTargetFPS() {
+	public synchronized int getTargetFPS() {
 		return targetFPS;
 	}
 
-	public void setTargetFPS(int targetFPS) {
+	public synchronized void setTargetFPS(int targetFPS) {
 		this.targetFPS = targetFPS;
 	}
 
@@ -78,7 +80,11 @@ public class GameLoop {
 		return running;
 	}
 
-	public void tick() {
+	private void masterTick() {
+		var evtService = ServiceManager.get(IIngameEventService.class);
+		if (evtService != null) {
+			evtService.pollEvents(world);
+		}
 		for (var e : world.getEntities()) {
 			e.tick(world);
 		}
