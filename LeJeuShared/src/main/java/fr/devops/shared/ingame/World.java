@@ -28,18 +28,16 @@ public class World implements IWorld {
 
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
-		entities.add(event.type().makeNew());
+		entities.add(event.type().makeNew());event.id();
 	}
 
 	@Override
 	public void onEntityDestroyed(EntityDestroyedEvent event) {
-		// TODO Auto-generated method stub
-		
+		entities.removeIf(e -> e.getId() == event.id());
 	}
 
 	@Override
 	public void onEntityMove(EntityMoveEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 	

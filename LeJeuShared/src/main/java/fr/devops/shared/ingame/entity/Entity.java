@@ -8,6 +8,8 @@ public abstract class Entity {
 	
 	private double y;
 	
+	private int id;
+	
 	public abstract EntityType getEntityType();
 	
 	public final double getX() {
@@ -24,6 +26,14 @@ public abstract class Entity {
 	
 	public final void setY(double y) {
 		this.y = y;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public void tick(IWorld world) {
