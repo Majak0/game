@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
 }
 
 group 'fr.devops'
@@ -21,6 +21,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+	implementation project(':LeJeuShared')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 

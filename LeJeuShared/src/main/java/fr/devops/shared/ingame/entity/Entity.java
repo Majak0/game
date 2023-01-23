@@ -4,6 +4,12 @@ import fr.devops.shared.ingame.IWorld;
 
 public abstract class Entity {
 	
+	private static int lastId = 0;
+	
+	public static int nextFreeId() {
+		return ++lastId;
+	}
+	
 	private double x;
 	
 	private double y;
