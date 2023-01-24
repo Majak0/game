@@ -1,6 +1,8 @@
 package fr.devops.server.network;
 
-public interface IServerNetworkService {
+import fr.devops.shared.service.IService;
+
+public interface IServerNetworkService extends IService {
 	
 	public void sendToAll(Object payload);
 	

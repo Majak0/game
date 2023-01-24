@@ -79,7 +79,7 @@ public class NetworkService implements INetworkService {
 				socket.shutdownInput();
 				setSocket(null);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
