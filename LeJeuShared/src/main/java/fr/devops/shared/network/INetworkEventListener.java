@@ -1,8 +1,8 @@
-package fr.devops.game.network;
+package fr.devops.shared.network;
 
 import fr.devops.shared.ingame.event.IngameEvent;
 
-public interface NetworkEventListener {
+public interface INetworkEventListener {
 
 	public void onNetworkIngameEvent(IngameEvent evt);
 	

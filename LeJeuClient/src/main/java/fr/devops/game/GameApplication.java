@@ -1,12 +1,12 @@
 package fr.devops.game;
 
-import fr.devops.game.ingame.IngameEventService;
 import fr.devops.game.navigation.NavigationService;
 import fr.devops.game.navigation.Page;
-import fr.devops.game.network.INetworkService;
 import fr.devops.game.network.NetworkService;
 import fr.devops.game.render.EntityRendererContainer;
 import fr.devops.shared.ingame.event.IIngameEventService;
+import fr.devops.shared.ingame.event.IngameEventService;
+import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
 import javafx.application.Application;
 import javafx.application.Platform;

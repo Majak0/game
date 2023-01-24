@@ -8,10 +8,12 @@ import java.util.List;
 
 import fr.devops.game.util.WeakLinkedList;
 import fr.devops.shared.ingame.event.IngameEvent;
+import fr.devops.shared.network.INetworkEventListener;
+import fr.devops.shared.network.INetworkService;
 
 public class NetworkService implements INetworkService {
 
-	private final List<NetworkEventListener> listeners = new WeakLinkedList<>();
+	private final List<INetworkEventListener> listeners = new WeakLinkedList<>();
 
 	private Socket socket;
 
@@ -98,11 +100,11 @@ public class NetworkService implements INetworkService {
 	}
 
 	@Override
-	public void registerListener(NetworkEventListener listener) {
+	public void registerListener(INetworkEventListener listener) {
 		listeners.add(listener);
 	}
 
-	public void unregisterListener(NetworkEventListener listener) {
+	public void unregisterListener(INetworkEventListener listener) {
 		listeners.remove(listener);
 	}
 

@@ -1,19 +1,13 @@
-package fr.devops.game.ingame;
+package fr.devops.shared.ingame.event;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.devops.game.network.INetworkService;
-import fr.devops.game.network.NetworkEventListener;
-import fr.devops.shared.ingame.event.EntityCreatedEvent;
-import fr.devops.shared.ingame.event.EntityDestroyedEvent;
-import fr.devops.shared.ingame.event.EntityMoveEvent;
-import fr.devops.shared.ingame.event.IIngameEventService;
-import fr.devops.shared.ingame.event.IngameEvent;
-import fr.devops.shared.ingame.event.IngameEventListener;
+import fr.devops.shared.network.INetworkEventListener;
+import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
 
-public class IngameEventService implements NetworkEventListener, IIngameEventService{
+public class IngameEventService implements INetworkEventListener, IIngameEventService{
 
 	private List<IngameEvent> fromServerPool = new LinkedList<>();
 	

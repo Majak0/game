@@ -84,6 +84,7 @@ public class GameLoop {
 		var evtService = ServiceManager.get(IIngameEventService.class);
 		if (evtService != null) {
 			evtService.pollEvents(world);
+			evtService.clearEventQueue();
 		}
 		for (var e : world.getEntities()) {
 			e.tick(world);

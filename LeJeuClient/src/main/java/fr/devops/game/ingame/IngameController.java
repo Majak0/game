@@ -2,8 +2,8 @@ package fr.devops.game.ingame;
 
 import fr.devops.game.navigation.IController;
 import fr.devops.game.render.CanvasWorldRenderer;
+import fr.devops.server.world.World;
 import fr.devops.shared.ingame.GameLoop;
-import fr.devops.shared.ingame.World;
 import fr.devops.shared.ingame.entity.EntityTest;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
