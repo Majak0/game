@@ -9,6 +9,8 @@ import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityDestroyedEvent;
 import fr.devops.shared.ingame.event.EntityMoveEvent;
+import fr.devops.shared.ingame.event.IIngameEventService;
+import fr.devops.shared.service.ServiceManager;
 
 public class World implements IWorld {
 
@@ -29,7 +31,7 @@ public class World implements IWorld {
 
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
-		entities.add(event.type().makeNew());event.id();
+		entities.add(event.type().makeNew());
 	}
 
 	@Override
@@ -43,12 +45,12 @@ public class World implements IWorld {
 	}
 
 	@Override
-	public Entity spawn(EntityType type, int x, int y) {
+	public void spawn(EntityType type, double x, double y) {
 		var entity = type.makeNew();
 		entity.setX(x);
 		entity.setY(y);
 		entity.setId(Entity.nextFreeId());
-		return entity; //TODO send to client.
+		ServiceManager.get(IIngameEventService.class).sendEventToNetwork(new EntityCreatedEvent(entity));
 	}
 	
 }

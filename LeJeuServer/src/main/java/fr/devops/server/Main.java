@@ -1,7 +1,8 @@
 package fr.devops.server;
 
-import fr.devops.server.event.ServerIngameEventService;
 import fr.devops.server.network.ServerNetworkService;
+import fr.devops.server.request.IRequestHandler;
+import fr.devops.server.request.RequestHandler;
 import fr.devops.server.world.World;
 import fr.devops.shared.ingame.GameLoop;
 import fr.devops.shared.ingame.event.IIngameEventService;
@@ -15,16 +16,16 @@ public class Main {
 		new Main();
 	}
 	
-	public Main() {
-		setupServices();
-		var world = new World();
-		var loop = new GameLoop(world, null);
-		loop.start();
-	}
+	private final ServerNetworkService network = new ServerNetworkService();
 	
-	private void setupServices() {
-		ServiceManager.registerAs(INetworkService.class,new ServerNetworkService()); // load before IngameEventService
+	public Main() {
+		ServiceManager.registerAs(INetworkService.class,network); // load before IngameEventService
 		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());
+		var world = new World();
+		ServiceManager.registerAs(IRequestHandler.class, new RequestHandler(world));
+		var loop = new GameLoop(world, null);
+		network.startListening(25565);
+		loop.start();
 	}
 	
 }

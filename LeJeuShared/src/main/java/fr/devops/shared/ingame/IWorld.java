@@ -17,5 +17,5 @@ public interface IWorld extends IngameEventListener {
 	 * @param y
 	 * @return
 	 */
-	public Entity spawn(EntityType type, int x, int y);
+	public void spawn(EntityType type, double x, double y);
 }

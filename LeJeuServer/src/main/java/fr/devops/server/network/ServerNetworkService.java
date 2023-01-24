@@ -8,9 +8,12 @@ import java.net.Socket;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import fr.devops.server.request.IRequestHandler;
 import fr.devops.shared.ingame.event.IngameEvent;
+import fr.devops.shared.ingame.request.IRequest;
 import fr.devops.shared.network.INetworkEventListener;
 import fr.devops.shared.network.INetworkService;
+import fr.devops.shared.service.ServiceManager;
 
 public class ServerNetworkService implements INetworkService{
 
@@ -142,6 +145,8 @@ public class ServerNetworkService implements INetworkService{
 				for (var listener : listeners) {
 					listener.onNetworkIngameEvent(event);
 				}
+			}else if (payload instanceof IRequest request) {
+				ServiceManager.get(IRequestHandler.class).handleRequest(request);
 			}
 		}
 	}

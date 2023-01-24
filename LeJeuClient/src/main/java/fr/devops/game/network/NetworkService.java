@@ -25,7 +25,6 @@ public class NetworkService implements INetworkService {
 
 	private final List<Object> sendPool = new LinkedList<>();
 
-	@Override
 	public boolean connect(String address, int port) {
 		try {
 			if (isConnexionAlive()) {
@@ -96,7 +95,9 @@ public class NetworkService implements INetworkService {
 
 	@Override
 	public synchronized void send(Object payload) {
-		sendPool.add(payload);
+		synchronized(sendPool) {
+			sendPool.add(payload);
+		}
 	}
 
 	@Override

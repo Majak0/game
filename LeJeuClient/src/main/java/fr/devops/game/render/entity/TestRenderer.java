@@ -15,5 +15,4 @@ public class TestRenderer implements IEntityRenderer {
 			context.fillRect(entity.getX(), entity.getY(), test.getSize(), test.getSize());
 		}
 	}
-
 }

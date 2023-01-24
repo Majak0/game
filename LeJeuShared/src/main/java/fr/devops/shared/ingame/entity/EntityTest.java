@@ -33,6 +33,7 @@ public class EntityTest extends Entity {
 		var x = getX();
 		if (++x > 300) {
 			x = 0;
+			world.spawn(getEntityType(), x, getY() + 20);
 		}
 		setX(x);
 	}

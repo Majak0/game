@@ -1,5 +1,7 @@
 package fr.devops.shared.ingame.event;
 
-public interface IngameEvent {
+import java.io.Serializable;
+
+public interface IngameEvent extends Serializable{
 
 }

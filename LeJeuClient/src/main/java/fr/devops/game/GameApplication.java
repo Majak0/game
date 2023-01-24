@@ -14,9 +14,12 @@ import javafx.stage.Stage;
 
 public class GameApplication extends Application {
 	
+	private final NetworkService network = new NetworkService();
+	
 	@Override
 	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
 		setupServices(stage);
+		network.connect("127.0.0.1", 25565);
 		ServiceManager.get(NavigationService.class).goTo(Page.INGAME);
 		stage.setOnCloseRequest(e -> {
 			Platform.exit();
@@ -31,7 +34,7 @@ public class GameApplication extends Application {
 
 	private void setupServices(Stage stage) {
 		ServiceManager.register(new NavigationService(stage));
-		ServiceManager.registerAs(INetworkService.class,new NetworkService()); // load before IngameEventService
+		ServiceManager.registerAs(INetworkService.class,network); // load before IngameEventService
 		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());
 		ServiceManager.register(new EntityRendererContainer());
 	}
