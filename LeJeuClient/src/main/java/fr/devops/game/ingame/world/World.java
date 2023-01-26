@@ -27,11 +27,13 @@ public class World implements IWorld{
 
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
+		/*
 		var entity = event.type().makeNew();
 		entity.setId(event.id());
 		entity.setX(event.x());
 		entity.setY(event.y());
 		entities.add(entity);
+		*/
 	}
 
 	@Override

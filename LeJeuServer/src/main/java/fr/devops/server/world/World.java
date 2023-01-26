@@ -15,8 +15,8 @@ import fr.devops.shared.service.ServiceManager;
 public class World implements IWorld {
 
 	private List<Entity> entities = new LinkedList<>();
-	
-	public List<Entity> getEntities(){
+
+	public List<Entity> getEntities() {
 		return entities;
 	}
 
@@ -41,7 +41,7 @@ public class World implements IWorld {
 
 	@Override
 	public void onEntityMove(EntityMoveEvent event) {
-		
+
 	}
 
 	@Override
@@ -50,7 +50,10 @@ public class World implements IWorld {
 		entity.setX(x);
 		entity.setY(y);
 		entity.setId(Entity.nextFreeId());
+		synchronized (entities) {
+			entities.add(entity);
+		}
 		ServiceManager.get(IIngameEventService.class).sendEventToNetwork(new EntityCreatedEvent(entity));
 	}
-	
+
 }

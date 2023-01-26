@@ -31,11 +31,13 @@ public class EntityTest extends Entity {
 	@Override
 	public void tick(IWorld world) {
 		var x = getX();
-		if (++x > 300) {
-			x = 0;
-			world.spawn(getEntityType(), x, getY() + 20);
+		if (x >= 0) {
+			if (++x > 300) {
+				x = -1;
+				world.spawn(getEntityType(), x+1, getY() + 20);
+			}
+			setX(x);
 		}
-		setX(x);
 	}
 
 }

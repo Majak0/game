@@ -1,8 +1,6 @@
 package fr.devops.server.network;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collection;
@@ -10,6 +8,7 @@ import java.util.LinkedList;
 
 import fr.devops.server.request.IRequestHandler;
 import fr.devops.shared.ingame.event.IngameEvent;
+import fr.devops.shared.ingame.request.AllEntitiesRequest;
 import fr.devops.shared.ingame.request.IRequest;
 import fr.devops.shared.network.INetworkEventListener;
 import fr.devops.shared.network.INetworkService;
@@ -21,19 +20,15 @@ public class ServerNetworkService implements INetworkService{
 	
 	private boolean isListeningForNewClients;
 	
-	private Collection<Socket> clients = new LinkedList<>();
-	
 	private Collection<INetworkEventListener> listeners = new LinkedList<>();
-	
-	private Collection<ObjectOutputStream> clientsOut = new LinkedList<>();
 	
 	@Override
 	public void send(Object payload) {
-		synchronized(clientsOut) {
-			for (var out : clientsOut) {
+		var container = ServiceManager.get(IClientContainer.class);
+		synchronized(container) {
+			for (var client : container) {
 				try {
-					out.writeObject(payload);
-					out.flush();
+					client.send(payload);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -89,13 +84,7 @@ public class ServerNetworkService implements INetworkService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (var clientSocket : clients) {
-			try {
-				clientSocket.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
+		ServiceManager.get(IClientContainer.class).clear();
 	}
 
 	@Override
@@ -107,11 +96,18 @@ public class ServerNetworkService implements INetworkService{
 	
 	private void addClient(Socket clientSocket) {
 		try {
-			var inStream = clientSocket.getInputStream();
+			var container = ServiceManager.get(IClientContainer.class);
+			Client client = null;
+			synchronized(container) {
+				client = container.add(clientSocket);
+			}
+			if (client == null) {
+				return;
+			}
 			// Create listeningThread
+			var oInStream = client.in();
 			var clientInThread = new Thread(() -> {
 				try {
-					var oInStream = new ObjectInputStream(inStream);
 					while (true) {
 						var received = oInStream.readObject();
 						if (received != null) {
@@ -123,20 +119,11 @@ public class ServerNetworkService implements INetworkService{
 				}
 			});
 			clientInThread.start();
-			var out = new ObjectOutputStream(clientSocket.getOutputStream());
-			synchronized(clientsOut) {
-				clientsOut.add(out);
-			}
-			synchronized(clients){
-				clients.add(clientSocket);
-			}
-			syncNewClientWorld(out);
+			//
+			ServiceManager.get(IRequestHandler.class).handleRequest(new AllEntitiesRequest(client.id()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void syncNewClientWorld(ObjectOutputStream out) {
 	}
 
 	private void onPacketReceive(Object payload) {
