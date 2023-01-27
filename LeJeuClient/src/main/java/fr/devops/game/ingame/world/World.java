@@ -13,10 +13,10 @@ import fr.devops.shared.ingame.request.EntitySpawnRequest;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
 
-public class World implements IWorld{
+public class World implements IWorld {
 
 	private final List<Entity> entities = new LinkedList<>();
-	
+
 	@Override
 	public void onPlayerJoined() {
 	}
@@ -28,12 +28,9 @@ public class World implements IWorld{
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
 		/*
-		var entity = event.type().makeNew();
-		entity.setId(event.id());
-		entity.setX(event.x());
-		entity.setY(event.y());
-		entities.add(entity);
-		*/
+		 * var entity = event.type().makeNew(); entity.setId(event.id());
+		 * entity.setX(event.x()); entity.setY(event.y()); entities.add(entity);
+		 */
 	}
 
 	@Override
@@ -46,7 +43,9 @@ public class World implements IWorld{
 
 	@Override
 	public List<Entity> getEntities() {
-		return entities;
+		synchronized (entities) {
+			return entities;
+		}
 	}
 
 	@Override
@@ -54,4 +53,11 @@ public class World implements IWorld{
 		ServiceManager.get(INetworkService.class).send(new EntitySpawnRequest(type, x, y));
 	}
 
+	@Override
+	public void tick() {
+		for (var e : getEntities().toArray(Entity[]::new)) {
+			e.tick(this);
+		}
+	}
+	
 }

@@ -17,7 +17,9 @@ public class World implements IWorld {
 	private List<Entity> entities = new LinkedList<>();
 
 	public List<Entity> getEntities() {
-		return entities;
+		synchronized (entities) {
+			return entities;
+		}
 	}
 
 	@Override
@@ -54,6 +56,14 @@ public class World implements IWorld {
 			entities.add(entity);
 		}
 		ServiceManager.get(IIngameEventService.class).sendEventToNetwork(new EntityCreatedEvent(entity));
+	}
+	
+	@Override
+	public void tick() {
+		for (var e : getEntities().toArray(Entity[]::new)) {
+			e.tick(this);
+			
+		}
 	}
 
 }

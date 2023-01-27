@@ -5,7 +5,10 @@ import fr.devops.server.network.IClientContainer;
 import fr.devops.server.network.ServerNetworkService;
 import fr.devops.server.request.IRequestHandler;
 import fr.devops.server.request.RequestHandler;
+import fr.devops.server.sync.EntitySyncManager;
+import fr.devops.server.sync.IEntitySyncManager;
 import fr.devops.server.world.World;
+import fr.devops.shared.GameSide;
 import fr.devops.shared.ingame.GameLoop;
 import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.IIngameEventService;
@@ -22,6 +25,8 @@ public class Main {
 	private final ServerNetworkService network = new ServerNetworkService();
 	
 	public Main() {
+		GameSide.set(GameSide.SERVER);
+		ServiceManager.registerAs(IEntitySyncManager.class, new EntitySyncManager());
 		ServiceManager.registerAs(IClientContainer.class,new ClientContainer());
 		ServiceManager.registerAs(INetworkService.class,network); // load before IngameEventService
 		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());

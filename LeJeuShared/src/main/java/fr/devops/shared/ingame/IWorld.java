@@ -18,4 +18,6 @@ public interface IWorld extends IngameEventListener {
 	 * @return
 	 */
 	public void spawn(EntityType type, double x, double y);
+	
+	public void tick();
 }

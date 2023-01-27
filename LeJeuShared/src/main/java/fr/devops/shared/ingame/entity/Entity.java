@@ -1,6 +1,8 @@
 package fr.devops.shared.ingame.entity;
 
 import fr.devops.shared.ingame.IWorld;
+import fr.devops.shared.sync.EntityProperty;
+import fr.devops.shared.sync.SyncEntityProperty;
 
 public abstract class Entity {
 	
@@ -10,28 +12,30 @@ public abstract class Entity {
 		return ++lastId;
 	}
 	
-	private double x;
+	@SyncEntityProperty
+	private final EntityProperty<Double> x = new EntityProperty<Double>(0d);
 	
-	private double y;
+	@SyncEntityProperty
+	private final EntityProperty<Double> y = new EntityProperty<Double>(0d);
 	
 	private int id;
 	
 	public abstract EntityType getEntityType();
 	
 	public final double getX() {
-		return x;	
+		return x.getValue();	
 	}
 	
 	public final double getY() {
-		return y;
+		return y.getValue();
 	}
 	
 	public final void setX(double x) {
-		this.x = x;
+		this.x.setValue(x);
 	}
 	
 	public final void setY(double y) {
-		this.y = y;
+		this.y.setValue(y);
 	}
 	
 	public int getId() {

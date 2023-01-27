@@ -22,11 +22,8 @@ public class RequestHandler implements IRequestHandler {
 			world.spawn(entitySpawn.type(), entitySpawn.x(), entitySpawn.y());
 		} else if (request instanceof AllEntitiesRequest allEntities) {
 			var client = ServiceManager.get(IClientContainer.class).get(allEntities.clientId());
-			var entities = world.getEntities();
-			synchronized(entities) {
-				for (var entity : entities) {
-					client.send(new EntityCreatedEvent(entity));
-				}
+			for (var entity : world.getEntities()) {
+				client.send(new EntityCreatedEvent(entity));
 			}
 		}
 	}

@@ -86,12 +86,7 @@ public class GameLoop {
 			evtService.pollEvents(world);
 			evtService.clearEventQueue();
 		}
-		var entities = world.getEntities();
-		synchronized (entities) {
-			for (var e : entities) {
-				e.tick(world);
-			}
-		}
+		world.tick();
 	}
 
 	public void render(long elapsed) {
