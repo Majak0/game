@@ -8,7 +8,7 @@ import fr.devops.shared.ingame.entity.Entity;
 import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityDestroyedEvent;
-import fr.devops.shared.ingame.event.EntityMoveEvent;
+import fr.devops.shared.ingame.event.EntityModifiedEvent;
 import fr.devops.shared.ingame.event.IIngameEventService;
 import fr.devops.shared.service.ServiceManager;
 
@@ -42,8 +42,7 @@ public class World implements IWorld {
 	}
 
 	@Override
-	public void onEntityMove(EntityMoveEvent event) {
-
+	public void onEntityModified(EntityModifiedEvent event) {
 	}
 
 	@Override

@@ -10,6 +10,6 @@ public interface IngameEventListener {
 	
 	public void onEntityDestroyed(EntityDestroyedEvent event);
 	
-	public void onEntityMove(EntityMoveEvent event);
+	public void onEntityModified(EntityModifiedEvent event);
 	
 }

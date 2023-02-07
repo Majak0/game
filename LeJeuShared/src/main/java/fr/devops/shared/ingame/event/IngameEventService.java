@@ -22,12 +22,12 @@ public class IngameEventService implements INetworkEventListener, IIngameEventSe
 	public void pollEvents(IngameEventListener listener) {
 		synchronized(fromServerPool) {
 			for (var event : fromServerPool) {
-				if (event instanceof EntityMoveEvent evt) {
-					listener.onEntityMove(evt);
-				}else if (event instanceof EntityCreatedEvent evt) {
+				if (event instanceof EntityCreatedEvent evt) {
 					listener.onEntityCreated(evt);
 				}else if (event instanceof EntityDestroyedEvent evt) {
 					listener.onEntityDestroyed(evt);
+				}else if (event instanceof EntityModifiedEvent evt) {
+					listener.onEntityModified(evt);
 				}
 			}
 		}

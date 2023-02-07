@@ -10,6 +10,7 @@ import fr.devops.shared.ingame.entity.Entity;
 import fr.devops.shared.ingame.event.EntityModifiedEvent;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
+import fr.devops.shared.sync.EntityProperty;
 import fr.devops.shared.sync.SyncEntityProperty;
 
 public class EntitySyncManager implements IEntitySyncManager {
@@ -21,7 +22,10 @@ public class EntitySyncManager implements IEntitySyncManager {
 		Map<String, Object> map = new HashMap<>();
 		for (var property : getFields(entity.getClass())) {
 			try {
-				map.put(property.name, property.field.get(entity));
+				if (property.field.get(entity) instanceof EntityProperty<?> entityProperty && entityProperty.changed()) {
+					map.put(property.name, entityProperty.getValue());
+					entityProperty.update();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -41,7 +45,7 @@ public class EntitySyncManager implements IEntitySyncManager {
 	private Collection<Property> makeFieldList(Class<?> type){
 		Collection<Property> result = new LinkedList<>();
 		for (var field : type.getFields()) {
-			if (field.isAnnotationPresent(SyncEntityProperty.class) && field.trySetAccessible()) {
+			if (field.isAnnotationPresent(SyncEntityProperty.class) && field.trySetAccessible() && EntityProperty.class.isAssignableFrom(field.getType())) {
 				result.add(new Property(field));
 			}
 		}
