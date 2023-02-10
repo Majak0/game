@@ -12,5 +12,9 @@
 		spacing="20.0">
     <Label text="Adresse du server:" />
    	<TextField fx:id="addressField"/>
+   	<Label text="Nom d'utilisateur:" />
+   	<TextField fx:id="addressField"/>
+   	<Label text="Mot de passe:" />
+   	<TextField fx:id="addressField"/>
     <Button onAction="#onConnect" text="Se connecter" />
 </VBox>

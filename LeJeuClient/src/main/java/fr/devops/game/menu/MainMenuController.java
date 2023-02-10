@@ -10,6 +10,12 @@ public class MainMenuController implements IController{
 	private TextField addressField;
 	
 	@FXML
+	private TextField usernameField;
+	
+	@FXML
+	private TextField passwordField;
+	
+	@FXML
 	public void onConnect() {
 	}
 	
