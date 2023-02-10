@@ -7,6 +7,7 @@ import fr.devops.shared.ingame.request.AllEntitiesRequest;
 import fr.devops.shared.ingame.request.EntitySpawnRequest;
 import fr.devops.shared.ingame.request.IRequest;
 import fr.devops.shared.service.ServiceManager;
+import fr.devops.shared.sync.IEntitySyncManager;
 
 public class RequestHandler implements IRequestHandler {
 
@@ -24,6 +25,7 @@ public class RequestHandler implements IRequestHandler {
 			var client = ServiceManager.get(IClientContainer.class).get(allEntities.clientId());
 			for (var entity : world.getEntities()) {
 				client.send(new EntityCreatedEvent(entity));
+				ServiceManager.get(IEntitySyncManager.class).sendCreation(entity);
 			}
 		}
 	}

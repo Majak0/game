@@ -9,16 +9,16 @@ import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityDestroyedEvent;
 import fr.devops.shared.ingame.event.EntityModifiedEvent;
-import fr.devops.shared.ingame.event.IIngameEventService;
 import fr.devops.shared.service.ServiceManager;
+import fr.devops.shared.sync.IEntitySyncManager;
 
 public class World implements IWorld {
 
 	private List<Entity> entities = new LinkedList<>();
 
-	public List<Entity> getEntities() {
+	public Entity[] getEntities() {
 		synchronized (entities) {
-			return entities;
+			return entities.toArray(Entity[]::new);
 		}
 	}
 
@@ -33,12 +33,13 @@ public class World implements IWorld {
 
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
-		entities.add(event.type().makeNew());
 	}
 
 	@Override
 	public void onEntityDestroyed(EntityDestroyedEvent event) {
-		entities.removeIf(e -> e.getId() == event.id());
+		synchronized (entities) {
+			entities.removeIf(e -> e.getId() == event.id());
+		}
 	}
 
 	@Override
@@ -54,14 +55,19 @@ public class World implements IWorld {
 		synchronized (entities) {
 			entities.add(entity);
 		}
-		ServiceManager.get(IIngameEventService.class).sendEventToNetwork(new EntityCreatedEvent(entity));
+		ServiceManager.get(IEntitySyncManager.class).sendCreation(entity);
+		System.out.println("world created entity " + entity);
 	}
 	
 	@Override
 	public void tick() {
-		for (var e : getEntities().toArray(Entity[]::new)) {
+		var entities = getEntities();
+		for (var e : entities) {
 			e.tick(this);
-			
+		}
+		var syncManager = ServiceManager.get(IEntitySyncManager.class);
+		for (var e : entities) {
+			syncManager.sendChanges(e);
 		}
 	}
 

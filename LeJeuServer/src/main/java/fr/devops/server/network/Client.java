@@ -5,11 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public record Client(int id, Socket socket, ObjectInputStream in, ObjectOutputStream out) {
+public record Client(int id, Socket socket, ObjectInputStream in, ObjectOutputStream out, Thread inThread) {
 	
 	public void send(Object payload) {
 		try {
-			System.out.println("send");
+			System.out.println("server send "+payload + " to "+id);
 			out.writeObject(payload);
 			out.flush();
 		} catch (IOException e) {
@@ -23,8 +23,11 @@ public record Client(int id, Socket socket, ObjectInputStream in, ObjectOutputSt
 			out.close();
 			socket.close();
 		}catch(Exception e) {
-			e.printStackTrace();
 		}
+	}
+	
+	public boolean isDisconnected() {
+		return inThread != null ? !inThread.isAlive() : true;
 	}
 	
 }

@@ -12,6 +12,7 @@ import fr.devops.shared.ingame.event.EntityModifiedEvent;
 import fr.devops.shared.ingame.request.EntitySpawnRequest;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
+import fr.devops.shared.sync.IEntitySyncManager;
 
 public class World implements IWorld {
 
@@ -27,24 +28,38 @@ public class World implements IWorld {
 
 	@Override
 	public void onEntityCreated(EntityCreatedEvent event) {
-		/*
-		 * var entity = event.type().makeNew(); entity.setId(event.id());
-		 * entity.setX(event.x()); entity.setY(event.y()); entities.add(entity);
-		 */
+		 var entity = event.type().makeNew();
+		 entity.setId(event.id());
+		 System.out.println("entity received from server "+entity);
+		 synchronized (entities) {
+			 entities.add(entity);
+		}
 	}
 
 	@Override
 	public void onEntityDestroyed(EntityDestroyedEvent event) {
+		 synchronized (entities) {
+			 entities.removeIf(e -> e.getId() == event.id());
+		}
 	}
 
 	@Override
 	public void onEntityModified(EntityModifiedEvent event) {
+		Entity target = null;
+		for (var entity : getEntities()) {
+			if (entity.getId() == event.entityId()) {
+				target = entity;
+			}
+		}
+		if (target != null) {
+			ServiceManager.get(IEntitySyncManager.class).applyChanges(target, event.valuesChanges());
+		}
 	}
 
 	@Override
-	public List<Entity> getEntities() {
+	public Entity[] getEntities() {
 		synchronized (entities) {
-			return entities;
+			return entities.toArray(Entity[]::new);
 		}
 	}
 
@@ -55,7 +70,7 @@ public class World implements IWorld {
 
 	@Override
 	public void tick() {
-		for (var e : getEntities().toArray(Entity[]::new)) {
+		for (var e : getEntities()) {
 			e.tick(this);
 		}
 	}

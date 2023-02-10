@@ -24,7 +24,7 @@ public class NavigationService implements IService{
 	        }
 	        stage.show();
 		}catch(Exception e) {
-			e.printStackTrace();  // TODO Faire du bon logging
+			e.printStackTrace();
 		}
 	}
 	

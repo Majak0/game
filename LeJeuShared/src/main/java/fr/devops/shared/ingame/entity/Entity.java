@@ -48,4 +48,18 @@ public abstract class Entity {
 	
 	public void tick(IWorld world) {
 	}
+	
+	@Override
+	public String toString() {
+		var builder = new StringBuilder(getEntityType().toString());
+		builder.append(' ');
+		builder.append(id);
+		builder.append(" (");
+		builder.append(getX());
+		builder.append(", ");
+		builder.append(getY());
+		builder.append(')');
+		return builder.toString();
+		
+	}
 }

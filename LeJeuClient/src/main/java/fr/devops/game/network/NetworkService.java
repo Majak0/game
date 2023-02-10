@@ -6,14 +6,13 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.devops.game.util.WeakLinkedList;
 import fr.devops.shared.ingame.event.IngameEvent;
 import fr.devops.shared.network.INetworkEventListener;
 import fr.devops.shared.network.INetworkService;
 
 public class NetworkService implements INetworkService {
 
-	private final List<INetworkEventListener> listeners = new WeakLinkedList<>();
+	private final List<INetworkEventListener> listeners = new LinkedList<>();
 
 	private Socket socket;
 
@@ -87,6 +86,7 @@ public class NetworkService implements INetworkService {
 
 	private void onReceived(Object payload) {
 		if (payload instanceof IngameEvent evt) {
+			System.out.println("received event from server "+ evt);
 			for (var listener : listeners) {
 				listener.onNetworkIngameEvent(evt);
 			}

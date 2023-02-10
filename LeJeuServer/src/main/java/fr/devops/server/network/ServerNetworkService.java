@@ -99,27 +99,11 @@ public class ServerNetworkService implements INetworkService{
 			var container = ServiceManager.get(IClientContainer.class);
 			Client client = null;
 			synchronized(container) {
-				client = container.add(clientSocket);
+				client = container.add(clientSocket, this::onPacketReceive);
 			}
 			if (client == null) {
 				return;
 			}
-			// Create listeningThread
-			var oInStream = client.in();
-			var clientInThread = new Thread(() -> {
-				try {
-					while (true) {
-						var received = oInStream.readObject();
-						if (received != null) {
-							onPacketReceive(received);
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-			clientInThread.start();
-			//
 			ServiceManager.get(IRequestHandler.class).handleRequest(new AllEntitiesRequest(client.id()));
 		} catch (Exception e) {
 			e.printStackTrace();
