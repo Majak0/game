@@ -30,14 +30,16 @@ public class ConnectController implements IController{
 				try {
 					net.connect(addressField.getText());
 				}catch(URISyntaxException e) {
+					e.printStackTrace();
 					errorString = "L'adresse est incorrecte: " + e.getMessage();
 				}catch(Exception e) {
+					e.printStackTrace();
 					errorString = "une erreur est survenue lors de la connexion: " + e.getMessage();
 				}
 			}
 			final String errorStringFinal = errorString; // Pas très propre...
 			Platform.runLater(() -> {
-				if (errorStringFinal != null) {
+				if (errorStringFinal == null) {
 					ServiceManager.get(NavigationService.class).goTo(Page.LOGIN);
 				}else {
 					errorOutput.setText(errorStringFinal);

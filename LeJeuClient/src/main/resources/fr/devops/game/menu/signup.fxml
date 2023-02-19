@@ -20,5 +20,4 @@
 		<TextField fx:id="passwordConfirmField"/>
 		<Button onAction="#onRegister" text="S'inscrire" />
 		<Label fx:id="errorOutput" style="color:red;"/>
-		<Button onAction="#onNavigateBack" text="Retour" />
 </VBox>

@@ -11,6 +11,8 @@ public class NavigationService implements IService{
 	
 	public static final String AUTHENTICATION_FAILURE_MESSAGE = "AuthenticationFailureMessage";
 
+	public static final String REGISTER_USER_RESPONSE_MESSAGE = "RegisterUserResponse";
+
 	private final Stage stage;
 	
 	private Page currentPage;

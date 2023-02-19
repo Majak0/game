@@ -9,8 +9,10 @@ import fr.devops.shared.network.request.AllEntitiesRequest;
 import fr.devops.shared.network.request.AuthenticationRequest;
 import fr.devops.shared.network.request.EntitySpawnRequest;
 import fr.devops.shared.network.request.IRequest;
+import fr.devops.shared.network.request.RegisterUserRequest;
 import fr.devops.shared.network.response.AuthenticationFailureResponse;
 import fr.devops.shared.network.response.AuthenticationSuccessResponse;
+import fr.devops.shared.network.response.RegisterUserResponse;
 import fr.devops.shared.service.ServiceManager;
 import fr.devops.shared.sync.IEntitySyncManager;
 
@@ -42,6 +44,18 @@ public class RequestHandler implements IRequestHandler {
 					}
 				}catch(Exception e) {
 					ServiceManager.get(INetworkService.class).send(new AuthenticationFailureResponse(e.getMessage()));
+				}
+			}).start();
+		}else if (request instanceof RegisterUserRequest registerUser) {
+			new Thread(() -> {
+				try {
+					if (ServiceManager.get(ISQLService.class).register(registerUser.username(), registerUser.password())) {
+						ServiceManager.get(INetworkService.class).send(new RegisterUserResponse("L'utilisateur à bien été créé."));
+					}else {
+						throw new Exception("Ce nom d'utilisateur est déja pris.");
+					}
+				}catch(Exception e) {
+					ServiceManager.get(INetworkService.class).send(new RegisterUserResponse(e.getMessage()));
 				}
 			}).start();
 		}

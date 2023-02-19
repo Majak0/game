@@ -8,6 +8,8 @@ import fr.devops.server.network.IClientContainer;
 import fr.devops.server.network.ServerNetworkService;
 import fr.devops.server.request.IRequestHandler;
 import fr.devops.server.request.RequestHandler;
+import fr.devops.server.sql.ISQLService;
+import fr.devops.server.sql.SQLService;
 import fr.devops.server.world.World;
 import fr.devops.shared.GameSide;
 import fr.devops.shared.ingame.GameLoop;
@@ -23,7 +25,7 @@ import oracle.jdbc.pool.OracleDataSource;
 
 public class Main {
 
-	private Scanner userInputScanner = new Scanner(System.in);
+	private Scanner userInputScanner;
 	
 	public static void main(String[] args) {
 		new Main();
@@ -51,6 +53,7 @@ public class Main {
 	}
 	
 	private void registerSQLService() {
+		userInputScanner = new Scanner(System.in);
 		var username = fetchUsername();
 		var password = fetchPassword();
 		userInputScanner.close();
@@ -66,6 +69,7 @@ public class Main {
 			source.setURL("jdbc:oracle:thin:@iutdoua-ora.univ-lyon1.fr:1521:cdb1");
             source.setUser(username);
             source.setPassword(password);
+            ServiceManager.registerAs(ISQLService.class, new SQLService(source));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -74,12 +78,12 @@ public class Main {
 	
 	public String fetchUsername() {
 		System.out.println("\nEntrez le nom d'utilisateur de la base de donnée (du type \"pxxxxxxx\"):\n");
-		return userInputScanner.next();
+		return userInputScanner.nextLine();
 	}
 	
 	public String fetchPassword() {
 		System.out.println("\nEntrez le mot de passe de la base de donnée (au dos de la carte étudiant):\n");
-		return userInputScanner.next();
+		return userInputScanner.nextLine();
 		
 	}
 	

@@ -12,7 +12,7 @@
 		spacing="20.0">
 		<Label text="Se connecter" style="font-size:2em;font-wheight:bold;"/>
 		<Label text="Adresse du server:" />
-		<TextField fx:id="addressField"/>
+		<TextField fx:id="addressField" text="localhost:25565"/>
 		<Button onAction="#onConnect" text="Se connecter" />
 		<Label fx:id="errorOutput" style="color:red;"/>
 </VBox>

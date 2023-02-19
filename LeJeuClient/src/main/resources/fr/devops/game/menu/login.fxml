@@ -12,9 +12,9 @@
 		spacing="20.0">
 		<Label text="S'authentifier" style="font-size:2em;font-wheight:bold;"/>
 		<Label text="Nom d'utilisateur:" />
-		<TextField fx:id="addressField"/>
+		<TextField fx:id="usernameField"/>
 		<Label text="Mot de passe:" />
-		<TextField fx:id="addressField"/>
+		<TextField fx:id="passwordField"/>
 		<Button onAction="#onConnect" text="Se connecter" />
 		<Label text="Pas de compte?" />
 		<Button onAction="#onRegister" text="S'inscrire" />

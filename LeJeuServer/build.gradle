@@ -25,6 +25,10 @@ application {
     mainClass = 'fr.devops.server.Main'
 }
 
+run{
+	standardInput = System.in
+}
+
 dependencies {
 	implementation project(':LeJeuShared')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

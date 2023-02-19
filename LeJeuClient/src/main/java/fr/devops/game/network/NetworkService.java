@@ -101,7 +101,6 @@ public class NetworkService implements INetworkService {
 
 	private void onReceived(Object payload) {
 		if (payload instanceof IngameEvent evt) {
-			System.out.println("received event from server " + evt);
 			for (var listener : listeners) {
 				listener.onNetworkIngameEvent(evt);
 			}

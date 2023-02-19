@@ -5,5 +5,7 @@ import fr.devops.shared.service.IService;
 public interface ISQLService extends IService{
 
 	public boolean authenticate(String username, String password) throws Exception;
+
+	public boolean register(String username, String password) throws Exception;
 	
 }
