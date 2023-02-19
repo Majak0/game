@@ -9,7 +9,6 @@ public record Client(int id, Socket socket, ObjectInputStream in, ObjectOutputSt
 	
 	public void send(Object payload) {
 		try {
-			System.out.println("server send "+payload + " to "+id);
 			out.writeObject(payload);
 			out.flush();
 		} catch (IOException e) {

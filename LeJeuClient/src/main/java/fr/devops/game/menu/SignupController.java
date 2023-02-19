@@ -4,7 +4,7 @@ import fr.devops.game.navigation.IController;
 import fr.devops.game.navigation.NavigationService;
 import fr.devops.game.navigation.Page;
 import fr.devops.shared.network.INetworkService;
-import fr.devops.shared.network.request.AuthenticationRequest;
+import fr.devops.shared.network.request.RegisterUserRequest;
 import fr.devops.shared.service.ServiceManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -44,7 +44,7 @@ public class SignupController implements IController{
 		}
 		// REGISTER
 		errorOutput.setText("Création de l'utilisateur en ligne...");
-		new Thread(()->ServiceManager.get(INetworkService.class).send(new AuthenticationRequest(username, password))).start();
+		new Thread(()->ServiceManager.get(INetworkService.class).send(new RegisterUserRequest(username, password))).start();
 	}
 	
 	@FXML
