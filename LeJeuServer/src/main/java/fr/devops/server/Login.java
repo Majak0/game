@@ -6,6 +6,13 @@ import java.sql.SQLException;
 
 import oracle.jdbc.pool.OracleDataSource;
 
+/**
+ * Code importé d'un autre projet.
+ * Il me sert pour copier coller certaines choses que je ne connais pas par coeur (ex: l'URL de connection à la base de donnée de l'IUT)
+ * 
+ * @author XxGoldenbluexX
+ *
+ */
 public class Login {
     static Connection connection;
     static OracleDataSource source;

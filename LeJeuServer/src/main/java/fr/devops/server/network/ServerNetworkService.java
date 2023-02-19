@@ -8,10 +8,9 @@ import java.util.LinkedList;
 
 import fr.devops.server.request.IRequestHandler;
 import fr.devops.shared.ingame.event.IngameEvent;
-import fr.devops.shared.ingame.request.AllEntitiesRequest;
-import fr.devops.shared.ingame.request.IRequest;
 import fr.devops.shared.network.INetworkEventListener;
 import fr.devops.shared.network.INetworkService;
+import fr.devops.shared.network.request.IRequest;
 import fr.devops.shared.service.ServiceManager;
 
 public class ServerNetworkService implements INetworkService{
@@ -104,20 +103,19 @@ public class ServerNetworkService implements INetworkService{
 			if (client == null) {
 				return;
 			}
-			ServiceManager.get(IRequestHandler.class).handleRequest(new AllEntitiesRequest(client.id()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void onPacketReceive(Object payload) {
+	private void onPacketReceive(int clientId, Object payload) {
 		synchronized (listeners) {
 			if (payload instanceof IngameEvent event) {
 				for (var listener : listeners) {
 					listener.onNetworkIngameEvent(event);
 				}
 			}else if (payload instanceof IRequest request) {
-				ServiceManager.get(IRequestHandler.class).handleRequest(request);
+				ServiceManager.get(IRequestHandler.class).handleRequest(clientId, request);
 			}
 		}
 	}

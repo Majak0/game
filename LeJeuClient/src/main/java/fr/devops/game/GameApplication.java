@@ -4,6 +4,8 @@ import fr.devops.game.navigation.NavigationService;
 import fr.devops.game.navigation.Page;
 import fr.devops.game.network.NetworkService;
 import fr.devops.game.render.EntityRendererContainer;
+import fr.devops.game.response.IResponseHandler;
+import fr.devops.game.response.ResponseHandler;
 import fr.devops.shared.ingame.event.IIngameEventService;
 import fr.devops.shared.ingame.event.IngameEventService;
 import fr.devops.shared.network.INetworkService;
@@ -34,6 +36,7 @@ public class GameApplication extends Application {
 	}
 
 	private void setupServices(Stage stage) {
+		ServiceManager.registerAs(IResponseHandler.class, new ResponseHandler());
 		ServiceManager.registerAs(IEntitySyncManager.class, new EntitySyncManager());
 		ServiceManager.register(new NavigationService(stage));
 		ServiceManager.register(new NetworkService()); // allow us to access INetworkService's client implementation

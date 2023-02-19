@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class ClientContainer implements IClientContainer {
 
@@ -146,23 +146,24 @@ public class ClientContainer implements IClientContainer {
 	}
 
 	@Override
-	public Client add(Socket clientSocket, Consumer<Object> receiveCallback) {
+	public Client add(Socket clientSocket, BiConsumer<Integer,Object> receiveCallback) {
 		removeDisconnected();
 		try {
-			var oInStream = new ObjectInputStream(clientSocket.getInputStream());
+			final var clientId = ++currentId;
+			final var oInStream = new ObjectInputStream(clientSocket.getInputStream());
 			var thread = new Thread(() -> {
 				try {
 					while (true) {
 						var received = oInStream.readObject();
 						if (received != null) {
-							receiveCallback.accept(received);
+							receiveCallback.accept(clientId,received);
 						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			});
-			var client = new Client(++currentId, clientSocket, oInStream,
+			var client = new Client(clientId, clientSocket, oInStream,
 					new ObjectOutputStream(clientSocket.getOutputStream()), thread);
 			thread.start();
 			synchronized (clients) {

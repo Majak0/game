@@ -9,9 +9,12 @@ import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.devops.game.response.IResponseHandler;
 import fr.devops.shared.ingame.event.IngameEvent;
 import fr.devops.shared.network.INetworkEventListener;
 import fr.devops.shared.network.INetworkService;
+import fr.devops.shared.network.response.IResponse;
+import fr.devops.shared.service.ServiceManager;
 
 public class NetworkService implements INetworkService {
 
@@ -24,6 +27,8 @@ public class NetworkService implements INetworkService {
 	private Thread inThread;
 
 	private boolean connexionAlive;
+	
+	private int clientId = -1;
 
 	private final List<Object> sendPool = new LinkedList<>();
 
@@ -100,6 +105,8 @@ public class NetworkService implements INetworkService {
 			for (var listener : listeners) {
 				listener.onNetworkIngameEvent(evt);
 			}
+		}else if (payload instanceof IResponse response) {
+			ServiceManager.get(IResponseHandler.class).handleResponse(response);
 		}
 	}
 
@@ -109,7 +116,15 @@ public class NetworkService implements INetworkService {
 			sendPool.add(payload);
 		}
 	}
+	
+	public void setClientId(int id) {
+		clientId = id;
+	}
 
+	public int getClientId() {
+		return clientId;
+	}
+	
 	@Override
 	public void registerListener(INetworkEventListener listener) {
 		listeners.add(listener);

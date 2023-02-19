@@ -10,7 +10,7 @@
 		fx:controller="fr.devops.game.menu.LoginController"
 		alignment="CENTER"
 		spacing="20.0">
-		<Label text="Se connecter" style="font-size:2em;font-wheight:bold;"/>
+		<Label text="S'authentifier" style="font-size:2em;font-wheight:bold;"/>
 		<Label text="Nom d'utilisateur:" />
 		<TextField fx:id="addressField"/>
 		<Label text="Mot de passe:" />
