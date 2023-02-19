@@ -3,6 +3,7 @@ module fr.devops.game {
     requires javafx.fxml;
 	requires javafx.graphics;
 	requires LeJeuShared;
+	requires javafx.base;
 
     opens fr.devops.game.menu to javafx.fxml;
     opens fr.devops.game.ingame to javafx.fxml;

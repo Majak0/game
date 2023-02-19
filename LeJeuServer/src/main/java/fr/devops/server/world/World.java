@@ -56,7 +56,6 @@ public class World implements IWorld {
 			entities.add(entity);
 		}
 		ServiceManager.get(IEntitySyncManager.class).sendCreation(entity);
-		System.out.println("world created entity " + entity);
 	}
 	
 	@Override

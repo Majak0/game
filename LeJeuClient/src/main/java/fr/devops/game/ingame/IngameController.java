@@ -1,5 +1,6 @@
 package fr.devops.game.ingame;
 
+import fr.devops.game.ingame.input.PlayerInputDispatcher;
 import fr.devops.game.ingame.world.World;
 import fr.devops.game.navigation.IController;
 import fr.devops.game.render.CanvasWorldRenderer;
@@ -20,6 +21,7 @@ public class IngameController implements IController{
 	public void setup() {
 		var world = new World();
 		var renderer = new CanvasWorldRenderer(canvas);
+		new PlayerInputDispatcher(canvas, world);
 		var loop = new GameLoop(world, renderer);
 		new Thread(loop::start).start();
 	}
