@@ -1,8 +1,11 @@
 package fr.devops.game.network;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,45 +27,52 @@ public class NetworkService implements INetworkService {
 
 	private final List<Object> sendPool = new LinkedList<>();
 
-	public boolean connect(String address, int port) {
-		try {
-			if (isConnexionAlive()) {
-				disconnect();
-			}
-			setSocket(new Socket(address, port));
-			var outStream = new ObjectOutputStream(getSocket().getOutputStream());
-			var inStream = new ObjectInputStream(getSocket().getInputStream());
-			outThread = new Thread(() -> {
-				while (isConnexionAlive()) {
-					try {
-						synchronized (sendPool) {
-							for (var payload : sendPool) {
-								outStream.writeObject(payload);
-							}
-							sendPool.clear();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			inThread = new Thread(() -> {
-				while (isConnexionAlive()) {
-					try {
-						onReceived(inStream.readObject());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			setConnexionAlive(true);
-			outThread.start();
-			inThread.start();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+	public void connect(String uri) throws URISyntaxException, IOException {
+		connect(new URI(uri));
+	}
+
+	public void connect(URI uri) throws IOException {
+		connect(uri.getHost(), uri.getPort());
+	}
+
+	public void connect(String address, int port) throws IOException {
+		// Problème de parse URI, le port n'est pas détecté
+		System.out.println("Tentative de connection a l'adresse " + address + " au port " + port);
+		if (port < 0) {
+			port = 25565; // Port par défaut
 		}
+		if (isConnexionAlive()) {
+			disconnect();
+		}
+		setSocket(new Socket(address, port));
+		var outStream = new ObjectOutputStream(getSocket().getOutputStream());
+		var inStream = new ObjectInputStream(getSocket().getInputStream());
+		outThread = new Thread(() -> {
+			while (isConnexionAlive()) {
+				try {
+					synchronized (sendPool) {
+						for (var payload : sendPool) {
+							outStream.writeObject(payload);
+						}
+						sendPool.clear();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		inThread = new Thread(() -> {
+			while (isConnexionAlive()) {
+				try {
+					onReceived(inStream.readObject());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		setConnexionAlive(true);
+		outThread.start();
+		inThread.start();
 	}
 
 	public void disconnect() {
@@ -86,7 +96,7 @@ public class NetworkService implements INetworkService {
 
 	private void onReceived(Object payload) {
 		if (payload instanceof IngameEvent evt) {
-			System.out.println("received event from server "+ evt);
+			System.out.println("received event from server " + evt);
 			for (var listener : listeners) {
 				listener.onNetworkIngameEvent(evt);
 			}
@@ -95,7 +105,7 @@ public class NetworkService implements INetworkService {
 
 	@Override
 	public synchronized void send(Object payload) {
-		synchronized(sendPool) {
+		synchronized (sendPool) {
 			sendPool.add(payload);
 		}
 	}

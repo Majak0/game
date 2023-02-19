@@ -20,14 +20,14 @@ public class GameApplication extends Application {
 	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
 		System.out.println("Client start");
 		setupServices(stage);	
-		//network.connect("127.0.0.1", 25565);
-		ServiceManager.get(NavigationService.class).goTo(Page.MAIN_MENU);
+		//ServiceManager.get(NetworkService.class).connect("127.0.0.1", 25565);
+		ServiceManager.get(NavigationService.class).goTo(Page.CONNECT);
 		stage.setOnCloseRequest(e -> {
 			Platform.exit();
 			System.exit(0);
 		});
-		stage.setMinWidth(300);
-		stage.setMinHeight(300);
+		stage.setMinWidth(1280);
+		stage.setMinHeight(720);
 		stage.setTitle("Le Jeu");
         //stage.setFullScreen(true);
         stage.show();
@@ -36,9 +36,9 @@ public class GameApplication extends Application {
 	private void setupServices(Stage stage) {
 		ServiceManager.registerAs(IEntitySyncManager.class, new EntitySyncManager());
 		ServiceManager.register(new NavigationService(stage));
-		ServiceManager.register(new NetworkService());
-		ServiceManager.registerAs(INetworkService.class,ServiceManager.get(NetworkService.class)); // load before IngameEventService
-		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());
+		ServiceManager.register(new NetworkService()); // allow us to access INetworkService's client implementation
+		ServiceManager.registerAs(INetworkService.class,ServiceManager.get(NetworkService.class));
+		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService()); // load after INetworkService (depends on it)
 		ServiceManager.register(new EntityRendererContainer());
 	}
 

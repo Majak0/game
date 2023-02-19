@@ -34,7 +34,7 @@ public class Main {
 		world.spawn(EntityType.TEST, 10, 10);
 		ServiceManager.registerAs(IRequestHandler.class, new RequestHandler(world));
 		var loop = new GameLoop(world, null);
-		network.startListening(25565);
+		network.startListening(25565); // Port par défaut
 		loop.start();
 	}
 	

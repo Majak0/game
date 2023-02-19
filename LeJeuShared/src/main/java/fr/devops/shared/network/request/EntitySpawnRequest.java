@@ -1,4 +1,4 @@
-package fr.devops.shared.ingame.request;
+package fr.devops.shared.network.request;
 
 import fr.devops.shared.ingame.entity.EntityType;
 
