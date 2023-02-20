@@ -41,7 +41,6 @@ public class GameApplication extends Application {
 		ServiceManager.register(new NavigationService(stage));
 		ServiceManager.register(new NetworkService()); // allow us to access INetworkService's client implementation
 		ServiceManager.registerAs(INetworkService.class,ServiceManager.get(NetworkService.class));
-		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService()); // load after INetworkService (depends on it)
 		ServiceManager.register(new EntityRendererContainer());
 	}
 

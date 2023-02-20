@@ -1,10 +1,13 @@
 package fr.devops.game.ingame;
 
-import fr.devops.game.ingame.input.PlayerInputDispatcher;
+import fr.devops.game.ingame.input.PlayerInputContainer;
 import fr.devops.game.ingame.world.World;
 import fr.devops.game.navigation.IController;
 import fr.devops.game.render.CanvasWorldRenderer;
 import fr.devops.shared.ingame.GameLoop;
+import fr.devops.shared.ingame.event.IIngameEventService;
+import fr.devops.shared.ingame.event.IngameEventService;
+import fr.devops.shared.service.ServiceManager;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 
@@ -21,8 +24,9 @@ public class IngameController implements IController{
 	public void setup() {
 		var world = new World();
 		var renderer = new CanvasWorldRenderer(canvas);
-		new PlayerInputDispatcher(canvas, world);
+		ServiceManager.register(new PlayerInputContainer(canvas));
 		var loop = new GameLoop(world, renderer);
+		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());
 		new Thread(loop::start).start();
 	}
 	
