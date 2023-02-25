@@ -1,6 +1,5 @@
 package fr.devops.shared.ingame.entity;
 
-import fr.devops.shared.GameSide;
 import fr.devops.shared.ingame.IWorld;
 import fr.devops.shared.sync.EntityProperty;
 
@@ -36,9 +35,7 @@ public class EntityTest extends Entity {
 		if (x >= 0) {
 			if (++x > 300) {
 				x = -1;
-				if (GameSide.isServer()) {
-					world.spawn(getEntityType(), x+1, getY() + 20);
-				}
+				world.spawn(getEntityType(), x+1, getY() + 20);
 			}
 			setX(x);
 		}

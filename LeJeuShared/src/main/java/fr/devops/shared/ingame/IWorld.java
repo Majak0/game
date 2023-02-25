@@ -13,9 +13,11 @@ public interface IWorld extends IngameEventListener {
 	 * @param type
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return the created entity if created (clients don't create)
 	 */
-	public void spawn(EntityType type, double x, double y);
+	public Entity spawn(EntityType type, double x, double y);
+	
+	public void destroy(int entityId);
 	
 	public void tick();
 }

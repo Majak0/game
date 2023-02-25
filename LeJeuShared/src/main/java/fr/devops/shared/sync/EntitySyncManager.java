@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import fr.devops.shared.GameSide;
 import fr.devops.shared.ingame.entity.Entity;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityModifiedEvent;
@@ -62,7 +63,9 @@ public class EntitySyncManager implements IEntitySyncManager {
 				if (map.containsKey(prop.name)) {
 					if (prop.field.get(entity) instanceof EntityProperty<?> entityProperty) {
 						entityProperty.setCastValue(map.get(prop.name));
-						entityProperty.update();
+						if (GameSide.isClient()) {
+							entityProperty.update();
+						}
 					}
 				}
 			}

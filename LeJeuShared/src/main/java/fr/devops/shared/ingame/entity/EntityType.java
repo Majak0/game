@@ -4,7 +4,8 @@ import java.util.function.Supplier;
 
 public enum EntityType {
 
-	TEST(EntityTest::new);
+	TEST(EntityTest::new),
+	PLAYER(EntityPlayer::new);
 	
 	private final Supplier<Entity> constructor;
 	

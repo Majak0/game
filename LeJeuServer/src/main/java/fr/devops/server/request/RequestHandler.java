@@ -3,10 +3,13 @@ package fr.devops.server.request;
 import fr.devops.server.network.IClientContainer;
 import fr.devops.server.sql.ISQLService;
 import fr.devops.shared.ingame.IWorld;
+import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
+import fr.devops.shared.ingame.event.OwnerSetEvent;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.network.request.AllEntitiesRequest;
 import fr.devops.shared.network.request.AuthenticationRequest;
+import fr.devops.shared.network.request.EntityDestroyRequest;
 import fr.devops.shared.network.request.EntitySpawnRequest;
 import fr.devops.shared.network.request.IRequest;
 import fr.devops.shared.network.request.RegisterUserRequest;
@@ -28,6 +31,8 @@ public class RequestHandler implements IRequestHandler {
 	public void handleRequest(int clientId, IRequest request) {
 		if (request instanceof EntitySpawnRequest entitySpawn) {
 			world.spawn(entitySpawn.type(), entitySpawn.x(), entitySpawn.y());
+		}else if (request instanceof EntityDestroyRequest entityDestroy) {
+			world.destroy(entityDestroy.entityId());
 		} else if (request instanceof AllEntitiesRequest allEntities) {
 			var client = ServiceManager.get(IClientContainer.class).get(clientId);
 			for (var entity : world.getEntities()) {
@@ -39,6 +44,11 @@ public class RequestHandler implements IRequestHandler {
 				try {
 					if (ServiceManager.get(ISQLService.class).authenticate(auth.username(), auth.password())) {
 						ServiceManager.get(INetworkService.class).send(new AuthenticationSuccessResponse());
+						var entity = world.spawn(EntityType.PLAYER, 100, 100);
+						var client = ServiceManager.get(IClientContainer.class).get(clientId);
+						// Transfert ownership to player
+						entity.setOwned(false);
+						client.send(new OwnerSetEvent(entity.getId()));
 					}else {
 						throw new Exception("Nom d'utilisateur ou mot de passe invalide.");
 					}

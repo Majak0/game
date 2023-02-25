@@ -9,7 +9,9 @@ import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityDestroyedEvent;
 import fr.devops.shared.ingame.event.EntityModifiedEvent;
+import fr.devops.shared.ingame.event.OwnerSetEvent;
 import fr.devops.shared.network.INetworkService;
+import fr.devops.shared.network.request.EntityDestroyRequest;
 import fr.devops.shared.network.request.EntitySpawnRequest;
 import fr.devops.shared.service.ServiceManager;
 import fr.devops.shared.sync.IEntitySyncManager;
@@ -30,7 +32,6 @@ public class World implements IWorld {
 	public void onEntityCreated(EntityCreatedEvent event) {
 		 var entity = event.type().makeNew();
 		 entity.setId(event.id());
-		 System.out.println("entity received from server "+entity);
 		 synchronized (entities) {
 			 entities.add(entity);
 		}
@@ -55,6 +56,16 @@ public class World implements IWorld {
 			ServiceManager.get(IEntitySyncManager.class).applyChanges(target, event.valuesChanges());
 		}
 	}
+	
+	@Override
+	public void onOwnerSet(OwnerSetEvent event) {
+		for (var entity : getEntities()) {
+			if (entity.getId() == event.entityId()) {
+				entity.setOwned(true);
+				break;
+			}
+		}
+	}
 
 	@Override
 	public Entity[] getEntities() {
@@ -64,14 +75,22 @@ public class World implements IWorld {
 	}
 
 	@Override
-	public void spawn(EntityType type, double x, double y) {
+	public Entity spawn(EntityType type, double x, double y) {
 		ServiceManager.get(INetworkService.class).send(new EntitySpawnRequest(type, x, y));
+		return null;
+	}
+	
+	@Override
+	public void destroy(int entityId) {
+		ServiceManager.get(INetworkService.class).send(new EntityDestroyRequest(entityId));
 	}
 
 	@Override
 	public void tick() {
 		for (var e : getEntities()) {
-			e.tick(this);
+			if (e.isOwned()) {
+				e.tick(this);
+			}
 		}
 	}
 	

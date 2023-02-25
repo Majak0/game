@@ -12,4 +12,6 @@ public interface IngameEventListener {
 	
 	public void onEntityModified(EntityModifiedEvent event);
 	
+	public void onOwnerSet(OwnerSetEvent event);
+	
 }

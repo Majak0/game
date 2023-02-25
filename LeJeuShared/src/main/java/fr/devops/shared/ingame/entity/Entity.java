@@ -20,6 +20,8 @@ public abstract class Entity {
 	
 	private int id;
 	
+	private boolean isOwned;
+	
 	public abstract EntityType getEntityType();
 	
 	public final double getX() {
@@ -36,6 +38,14 @@ public abstract class Entity {
 	
 	public final void setY(double y) {
 		this.y.setValue(y);
+	}
+	
+	public boolean isOwned() {
+		return isOwned;
+	}
+	
+	public void setOwned(boolean owned) {
+		isOwned = owned;
 	}
 	
 	public int getId() {

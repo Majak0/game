@@ -7,6 +7,8 @@ import fr.devops.game.render.CanvasWorldRenderer;
 import fr.devops.shared.ingame.GameLoop;
 import fr.devops.shared.ingame.event.IIngameEventService;
 import fr.devops.shared.ingame.event.IngameEventService;
+import fr.devops.shared.network.INetworkService;
+import fr.devops.shared.network.request.AllEntitiesRequest;
 import fr.devops.shared.service.ServiceManager;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -28,6 +30,7 @@ public class IngameController implements IController{
 		var loop = new GameLoop(world, renderer);
 		ServiceManager.registerAs(IIngameEventService.class, new IngameEventService());
 		new Thread(loop::start).start();
+		ServiceManager.get(INetworkService.class).send(new AllEntitiesRequest());
 	}
 	
 }
