@@ -1,33 +1,42 @@
 package fr.devops.shared.ingame.entity;
 
 import fr.devops.shared.ingame.IWorld;
+import fr.devops.shared.ingame.collision.BoundingBox;
 import fr.devops.shared.ingame.control.IPlayerController;
 import fr.devops.shared.service.ServiceManager;
 import fr.devops.shared.sync.EntityProperty;
 
-public class EntityPlayer extends Entity {
+public class EntityPlayer extends BoundableEntity {
 
-	private EntityProperty<Integer> xspeed = new EntityProperty<>(0);
+	private static final double speed = 10;
 	
-	private EntityProperty<Integer> yspeed = new EntityProperty<>(0);
+	private static final double size = 20;
 	
-	public int getXSpeed() {
+	private EntityProperty<Double> xspeed = new EntityProperty<>(0d);
+	
+	private EntityProperty<Double> yspeed = new EntityProperty<>(0d);
+	
+	
+	@Override
+	protected BoundingBox makeBoundingBox() {
+		return new BoundingBox(0, 0, size, size);
+	}
+	
+	public double getXSpeed() {
 		return xspeed.getValue();
 	}
 	
-	public void setXSpeed(int value) {
+	public void setXSpeed(double value) {
 		xspeed.setValue(value);
 	}
 	
-	public int getYSpeed() {
+	public double getYSpeed() {
 		return yspeed.getValue();
 	}
 	
-	public void setYSpeed(int value) {
+	public void setYSpeed(double value) {
 		yspeed.setValue(value);
 	}
-	
-	private int speed = 10;
 	
 	@Override
 	public EntityType getEntityType() {
