@@ -26,6 +26,7 @@ public class IngameController implements IController{
 
 	@Override
 	public void setup() {
+		canvas.requestFocus();
 		var world = new World();
 		var renderer = new CanvasWorldRenderer(canvas);
 		ServiceManager.register(new PlayerInputContainer(canvas));

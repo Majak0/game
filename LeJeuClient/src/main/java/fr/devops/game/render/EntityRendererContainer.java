@@ -3,7 +3,9 @@ package fr.devops.game.render;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.devops.game.render.entity.PlayerRenderer;
 import fr.devops.game.render.entity.TestRenderer;
+import fr.devops.game.render.entity.WallRenderer;
 import fr.devops.shared.ingame.entity.Entity;
 import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.service.IService;
@@ -22,6 +24,8 @@ public class EntityRendererContainer implements IService{
 	
 	private void registerRenderers() {
 		renderers.put(EntityType.TEST, new TestRenderer());
+		renderers.put(EntityType.PLAYER, new PlayerRenderer());
+		renderers.put(EntityType.WALL, new WallRenderer());
 	}
 	
 }

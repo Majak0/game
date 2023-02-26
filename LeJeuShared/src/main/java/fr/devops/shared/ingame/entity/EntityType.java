@@ -5,7 +5,8 @@ import java.util.function.Supplier;
 public enum EntityType {
 
 	TEST(EntityTest::new),
-	PLAYER(EntityPlayer::new);
+	PLAYER(EntityPlayer::new),
+	WALL(EntityWall::new);
 	
 	private final Supplier<Entity> constructor;
 	

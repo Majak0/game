@@ -8,6 +8,8 @@ public abstract class Entity {
 	
 	private static int lastId = 0;
 	
+	public static int localOwnerId = 0;
+	
 	public static int nextFreeId() {
 		return ++lastId;
 	}
@@ -18,11 +20,16 @@ public abstract class Entity {
 	@SyncEntityProperty
 	private final EntityProperty<Double> y = new EntityProperty<Double>(0d);
 	
+	@SyncEntityProperty
+	private final EntityProperty<Integer> ownerId = new EntityProperty<Integer>(0);
+	
 	private int id;
 	
-	private boolean isOwned;
-	
 	public abstract EntityType getEntityType();
+	
+	public boolean isOwned() {
+		return getOwnerId() == localOwnerId;
+	}
 	
 	public final double getX() {
 		return x.getValue();	
@@ -40,12 +47,12 @@ public abstract class Entity {
 		this.y.setValue(y);
 	}
 	
-	public boolean isOwned() {
-		return isOwned;
+	public int getOwnerId() {
+		return ownerId.getValue();
 	}
 	
-	public void setOwned(boolean owned) {
-		isOwned = owned;
+	public void setOwnerId(int ownerId) {
+		this.ownerId.setValue(ownerId);
 	}
 	
 	public int getId() {

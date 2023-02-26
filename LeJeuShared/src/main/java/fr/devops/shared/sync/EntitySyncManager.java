@@ -82,11 +82,12 @@ public class EntitySyncManager implements IEntitySyncManager {
 	}
 
 	private Collection<Property> makeFieldList(Class<?> type) {
+		System.out.println("Replicated fields for type "+type.getName() + ':');
 		Collection<Property> result = new LinkedList<>();
 		for (var field : type.getDeclaredFields()) {
 			if (field.isAnnotationPresent(SyncEntityProperty.class) && field.trySetAccessible()
 					&& EntityProperty.class.isAssignableFrom(field.getType())) {
-				System.out.println("field " + field.getName() + " is in replication list");
+				System.out.println("- " + field.getName());
 				result.add(new Property(field));
 			}
 		}

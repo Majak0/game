@@ -6,12 +6,11 @@ public abstract class BoundableEntity extends Entity {
 	
 	private BoundingBox boundingBox = makeBoundingBox();
 	
-	public boolean overlap(BoundableEntity other) { // Algo classique de collision de boite (sans rotation)
-		var otherBound = other.getBoundingBox();
-		var otherLeft = other.getX() + otherBound.getX();
-		var otherRight = other.getX() + otherBound.getX() + otherBound.getWidth();
-		var otherUp = other.getY() + otherBound.getY();
-		var otherDown = other.getY() + otherBound.getY() + otherBound.getWidth();
+	public boolean overlap(BoundingBox other, double x, double y) { // Algo classique de collision de boite (sans rotation)
+		var otherLeft = x + other.getX();
+		var otherRight = x + other.getX() + other.getWidth();
+		var otherUp = y + other.getY();
+		var otherDown = y + other.getY() + other.getWidth();
 		var myLeft = getX() + boundingBox.getX();
 		var myRight = getX() + boundingBox.getX() + boundingBox.getWidth();
 		var myUp = getY() + boundingBox.getY();

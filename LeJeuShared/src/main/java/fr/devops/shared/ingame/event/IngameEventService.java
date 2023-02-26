@@ -22,6 +22,7 @@ public class IngameEventService implements INetworkEventListener, IIngameEventSe
 	public void pollEvents(IngameEventListener listener) {
 		synchronized(fromServerPool) {
 			for (var event : fromServerPool) {
+				System.out.println("evtent pooled "+event);
 				if (event instanceof EntityCreatedEvent evt) {
 					listener.onEntityCreated(evt);
 				}else if (event instanceof EntityDestroyedEvent evt) {

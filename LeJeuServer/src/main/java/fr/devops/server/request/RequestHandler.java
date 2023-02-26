@@ -5,7 +5,6 @@ import fr.devops.server.sql.ISQLService;
 import fr.devops.shared.ingame.IWorld;
 import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
-import fr.devops.shared.ingame.event.OwnerSetEvent;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.network.request.AllEntitiesRequest;
 import fr.devops.shared.network.request.AuthenticationRequest;
@@ -43,12 +42,11 @@ public class RequestHandler implements IRequestHandler {
 			new Thread(() -> {
 				try {
 					if (ServiceManager.get(ISQLService.class).authenticate(auth.username(), auth.password())) {
-						ServiceManager.get(INetworkService.class).send(new AuthenticationSuccessResponse());
-						var entity = world.spawn(EntityType.PLAYER, 100, 100);
 						var client = ServiceManager.get(IClientContainer.class).get(clientId);
+						client.send(new AuthenticationSuccessResponse(clientId));
+						var entity = world.spawn(EntityType.PLAYER, 100, 100);
 						// Transfert ownership to player
-						entity.setOwned(false);
-						client.send(new OwnerSetEvent(entity.getId()));
+						entity.setOwnerId(clientId);
 					}else {
 						throw new Exception("Nom d'utilisateur ou mot de passe invalide.");
 					}
@@ -60,7 +58,8 @@ public class RequestHandler implements IRequestHandler {
 			new Thread(() -> {
 				try {
 					if (ServiceManager.get(ISQLService.class).register(registerUser.username(), registerUser.password())) {
-						ServiceManager.get(INetworkService.class).send(new RegisterUserResponse("L'utilisateur à bien été créé."));
+						var client = ServiceManager.get(IClientContainer.class).get(clientId);
+						client.send(new RegisterUserResponse("L'utilisateur à bien été créé."));
 					}else {
 						throw new Exception("Ce nom d'utilisateur est déja pris.");
 					}

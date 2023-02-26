@@ -9,7 +9,6 @@ import fr.devops.shared.ingame.entity.EntityType;
 import fr.devops.shared.ingame.event.EntityCreatedEvent;
 import fr.devops.shared.ingame.event.EntityDestroyedEvent;
 import fr.devops.shared.ingame.event.EntityModifiedEvent;
-import fr.devops.shared.ingame.event.OwnerSetEvent;
 import fr.devops.shared.network.INetworkService;
 import fr.devops.shared.service.ServiceManager;
 import fr.devops.shared.sync.IEntitySyncManager;
@@ -53,11 +52,6 @@ public class World implements IWorld {
 			}
 		}
 	}
-	
-	@Override
-	public void onOwnerSet(OwnerSetEvent event) {
-		// NO NEED
-	}
 
 	@Override
 	public Entity spawn(EntityType type, double x, double y) {
@@ -65,7 +59,6 @@ public class World implements IWorld {
 		entity.setX(x);
 		entity.setY(y);
 		entity.setId(Entity.nextFreeId());
-		entity.setOwned(true);
 		synchronized (entities) {
 			entities.add(entity);
 		}

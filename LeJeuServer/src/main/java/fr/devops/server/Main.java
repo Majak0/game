@@ -37,10 +37,15 @@ public class Main {
 		GameSide.set(GameSide.SERVER);
 		var world = new World();
 		registerServices(world);
-		world.spawn(EntityType.TEST, 10, 10);
+		for (var i = 0; i < 10; i++) {
+			world.spawn(EntityType.WALL, 50 + (i * 20), 200);
+		}
+		//world.spawn(EntityType.TEST, 10, 10);
 		var loop = new GameLoop(world, null);
+		System.out.println("Le serveur se lance.");
 		network.startListening(25565); // Port par défaut
 		loop.start();
+		
 	}
 	
 	private void registerServices(IWorld world) {

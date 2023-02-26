@@ -1,5 +1,6 @@
 package fr.devops.game.ingame.input;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import fr.devops.shared.service.IService;
@@ -10,7 +11,7 @@ import javafx.scene.input.KeyEvent;
 
 public class PlayerInputContainer implements IService, EventHandler<KeyEvent>{
 
-	private Map<KeyCode,Boolean> keyboardKeys;
+	private Map<KeyCode,Boolean> keyboardKeys = new HashMap<>();
 	
 	public PlayerInputContainer(Canvas canvas) {
 		canvas.setOnKeyPressed(this);
@@ -18,7 +19,10 @@ public class PlayerInputContainer implements IService, EventHandler<KeyEvent>{
 	}
 	
 	public synchronized boolean isKeyPressed(KeyCode key) {
-		return keyboardKeys.get(key);
+		if (keyboardKeys.containsKey(key)) {
+			return keyboardKeys.get(key);
+		}
+		return false;
 	}
 
 	private synchronized void setKeyStatus(KeyCode key, boolean status) {
